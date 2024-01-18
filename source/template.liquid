@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    {% comment %} Meta data {% endcomment %}
+    <title>Uddebo kalendern</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% comment %} Stylesheets {% endcomment %}
+    <style>
+    :root {
+      --cover-image: url("{{imageSrc}}");
+      --page-width: {{width}}px;
+      --page-height: {{height}}px;
+      --page-color: white;
+    }
+    </style>
+    <link href="/main.css" rel="stylesheet" />
+    {% comment %} Scripts {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    <script src="/background-color-theif.js"></script>
+    <script src="/main.js"></script>
+  </head>
+  <body>
+    <article id="article">
+      <div id="cover">
+      <img
+        id="coverImg" src="{{imageSrc}}" />
+      </div>
+      <div id="content">
+      <div id="calendar"></div>
+      <div id="footer"></div>
+      </div>
+    </article>
+    <script>
+      // Input Data
+      const events = {{events}};
+      const month = "{{month}}";
+      const footerText = `{{footerText}}`;
+      console.log(footerText);
+      
+      render(events, month, footerText);
+    </script>
+  </body>
+</html>
