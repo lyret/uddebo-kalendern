@@ -39,21 +39,24 @@ function render(events, month, footerText) {
   coverEl.style.setProperty("max-height", `${height}px`);
 
   // Find the first disabled cell and insert the footer text
-  const firstDisabledDay = document.querySelector(".fc-day-disabled");
+  const firstDisabledDay = document.querySelector(
+    ".fc-day-future + .fc-day-disabled"
+  );
 
   if (firstDisabledDay && footerText) {
-    const allDisabledDays = Array.from(
+    const followingDisabledDays = Array.from(
       document.getElementsByClassName("fc-day-disabled")
-    );
-    firstDisabledDay.setAttribute("colspan", allDisabledDays.length);
-    allDisabledDays
-      .filter((d) => d != firstDisabledDay)
-      .forEach((d) => d.remove());
+    ).filter((el) => {
+      const pos = el.compareDocumentPosition(firstDisabledDay);
+      console.log(el, pos);
+      return pos == 2;
+    });
+    firstDisabledDay.setAttribute("colspan", followingDisabledDays.length + 1);
+    followingDisabledDays.forEach((el) => el.remove());
 
     const eventsContainer = firstDisabledDay.querySelector(
       ".fc-daygrid-day-events"
     );
-
     footerText.split("\n").forEach((line) => {
       const event = document.createElement("p");
       event.innerHTML = line;
