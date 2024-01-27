@@ -1,5 +1,8 @@
 {
   "identifier" : "E5585C1C-59F5-4CB4-A115-499F49A99B0B",
+  "ignoredFilePatterns" : [
+    "renders"
+  ],
   "remotePath" : "\/Users\/lyret\/Server\/uddebokalendern",
   "server" : "Lyrets Server",
   "usesPublishing" : true
