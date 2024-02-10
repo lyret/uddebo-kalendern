@@ -1,0 +1,9 @@
+{
+  "eablokker.tabsSidebar.config.customKindGroupsOrder" : [
+    "javascript"
+  ],
+  "eablokker.tabsSidebar.config.customTabOrder" : [
+    "\/Users\/lyret\/Kodarkiv\/uddebo-kalendern\/static\/main.js",
+    "\/Users\/lyret\/Kodarkiv\/uddebo-kalendern\/source\/generateHTML.mjs"
+  ]
+}
