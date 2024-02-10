@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    {% comment %} Meta data {% endcomment %}
+    <title>Uddebo kalendern</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% comment %} Stylesheets {% endcomment %}
+    {% comment %} Scripts {% endcomment %}
+    <style>
+    </style>
+  </head>
+  <body>
+    <h1>Uddebo Kalendern</h1>
+    <a href="https://docs.google.com/spreadsheets/d/1NctRYELgotoFI8jrmFRbWatzBFyJd0Py_KB2EwatFHE" target="_blank">Öppna Google Spreadsheets</a>
+    <a href="webcal://uddebokalendern.freaks.se/ical" target="_blank">Prenumerera på händelser i din kalender</a>
+    <h2>Tillgängliga kalenderbilder</h2>
+    <ul>
+      {% for sheet in sheets %}
+        <li>
+        <div>
+          <h3>{{sheet.name}}</h3>
+          <a href="/calendar/{{sheet.url}}"><strong>Bild</strong></a>
+          <a href="/html/{{sheet.url}}">html</a>
+        </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

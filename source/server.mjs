@@ -1,7 +1,12 @@
 import Path from "node:path";
 import Express from "express";
-import { generateHTML } from "./generateHTML.mjs";
-import { generateIMG } from "./generateIMG.mjs";
+import { Settings } from "luxon";
+import { CALENDAR } from "./calendarFeed.mjs";
+import { fetchCalendarXLSX } from "./fetchCalendarXLSX.mjs";
+import { generateCalendarHTML } from "./generateCalendarHTML.mjs";
+import { generateCalendarIMG } from "./generateCalendarIMG.mjs";
+import { generateIndexHTML } from "./generateIndexHTML.mjs";
+
 
 // Constants
 const PORT = process.env.PORT || 3000;
@@ -9,17 +14,20 @@ const RATIO = 0.7;
 const HEIGHT = 1800;
 const WIDTH = HEIGHT * RATIO;
 
+// Set the Luxon locale to Swedish
+Settings.defaultLocale = "sv";
+
 // Server
 const app = Express();
 
-// Static
+// Static Files
 app.use(Express.static("static"));
 
-// HTML Rendering
-app.get("/html/:month", async (req, res) => {
+// Index rendering
+app.get("/", async (_, res) => {
   try {
-    const { month } = req.params;
-    const html = await generateHTML(month, WIDTH, HEIGHT);
+    const workbook = await fetchCalendarXLSX();
+    const html = await generateIndexHTML(workbook);
     res.send(html);
   } catch (err) {
     console.error(err);
@@ -27,12 +35,40 @@ app.get("/html/:month", async (req, res) => {
   }
 });
 
-// Image Rendering
-app.get("/img/:month", async (req, res) => {
+// Calendar iCal feed 
+app.get("/ical", async (_, res) => {
+  try {
+    res.writeHead(200, {
+        'Content-Type': 'text/calendar; charset=utf-8',
+        'Content-Disposition': 'attachment; filename="uddebo-kalendern.ics"'
+    });
+    res.end(CALENDAR.toString());
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+
+// Calendar HTML Rendering
+app.get("/html/:month", async (req, res) => {
+  try {
+    const { month } = req.params;
+    const workbook = await fetchCalendarXLSX();
+    const html = await generateCalendarHTML(workbook, month, WIDTH, HEIGHT);
+    res.send(html);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+// Calendar Image Rendering
+app.get(["/img/:month", "/calendar/:month"], async (req, res) => {
   try {
     const { month } = req.params;
     const htmlURL = `${req.protocol}://${req.get("host")}/html/${month}`;
-    const filePath = await generateIMG(month, WIDTH, HEIGHT, htmlURL);
+    const filePath = await generateCalendarIMG(month, WIDTH, HEIGHT, htmlURL);
     res.sendFile(filePath);
   } catch (err) {
     console.error(err);
@@ -41,7 +77,7 @@ app.get("/img/:month", async (req, res) => {
 });
 
 // Return existing images
-app.get("/calendar/:month", async (req, res) => {
+app.get("/cached/:month", async (req, res) => {
   try {
     const { month } = req.params;
     const filePath = Path.resolve(`./renders/${month}.jpg`);

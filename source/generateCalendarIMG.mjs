@@ -3,7 +3,7 @@ import Path from "node:path";
 
 let lock = null;
 
-export async function generateIMG(month, width, height, htmlURL) {
+export async function generateCalendarIMG(month, width, height, htmlURL) {
   console.log("Rendering image for", month);
 
   // Keep track of concurrent renderings
@@ -12,7 +12,7 @@ export async function generateIMG(month, width, height, htmlURL) {
 
   const filePath = Path.resolve(`./renders/${month}.jpg`);
 
-  // Use Puppeteer to render the image
+  // Use Puppeteer to render the imageL
   const browser = await Puppeteer.launch({
     args: ["--no-sandbox"],
     headless: "new",
