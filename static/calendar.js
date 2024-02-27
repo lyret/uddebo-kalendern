@@ -41,7 +41,10 @@ function render(events, month, footerText) {
   // Find the first disabled cell and insert the footer text
   const firstDisabledDay = document.querySelector(
     ".fc-day-future + .fc-day-disabled"
+  ) || document.querySelector(
+    ".fc-day-disabled"
   );
+  console.log({firstDisabledDay})
 
   if (firstDisabledDay && footerText) {
     const followingDisabledDays = Array.from(
