@@ -62,7 +62,10 @@ function render(events, month, footerText, options = {}) {
 	}
 
 	// Set the image cover size
-	if (options.image) {
+	if (!options.image) {
+    articleEl.id = "done";
+    return;
+  }
 		const height = articleEl.offsetHeight - contentEl.offsetHeight + 40;
 		coverEl.style.setProperty("max-height", `${height}px`);
 
@@ -87,8 +90,4 @@ function render(events, month, footerText, options = {}) {
 			.then(() => {
 				articleEl.id = "done";
 			});
-	}
-  else {
-    articleEl.id = "done";
-  }
 }

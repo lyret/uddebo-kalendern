@@ -104,7 +104,7 @@ app.get(["/clean/html/:month", "/clean/html/"], async (req, res) => {
 app.get(["/clean/img/:month", "/clean/calendar/:month", "/clean/img", "/clean/calendar"], async (req, res) => {
   try {
     const month = getMonth(req);
-    const htmlURL = `${req.protocol}://${req.get("host")}/cleanhtml/${month}`;
+    const htmlURL = `${req.protocol}://${req.get("host")}/clean/html/${month}`;
     const filePath = await generateCalendarIMG(month, WIDTH, HEIGHT, htmlURL);
     res.sendFile(filePath);
   } catch (err) {
