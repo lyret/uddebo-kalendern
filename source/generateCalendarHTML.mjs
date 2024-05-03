@@ -1,7 +1,7 @@
 import Liquid from "liquidjs";
 import { getEventsFromWorksheet } from "./getEventsFromWorksheet.mjs";
 
-export async function generateCalendarHTML(workbook, sheetName, width, height) {
+export async function generateCalendarHTML(workbook, sheetName, width, height, template) {
 	console.log("Generating html from the sheet", sheetName);
 	const worksheet = workbook.getWorksheet(sheetName);
 
@@ -29,7 +29,7 @@ export async function generateCalendarHTML(workbook, sheetName, width, height) {
 
 	// Render the calendar template and return the resulting html
 	const engine = new Liquid.Liquid();
-	const tpl = await engine.parseFile("./templates/calendar.liquid");
+	const tpl = await engine.parseFile(`./templates/${template}.liquid`);
 
 	const html = await engine.render(tpl, {
 		events: JSON.stringify(events),

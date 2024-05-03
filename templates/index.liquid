@@ -16,13 +16,20 @@
     <a href="https://docs.google.com/spreadsheets/d/1NctRYELgotoFI8jrmFRbWatzBFyJd0Py_KB2EwatFHE" target="_blank">Öppna Google Spreadsheets</a>
     <a href="webcal://uddebokalendern.freaks.se/ical" target="_blank">Prenumerera på händelser i din kalender</a>
     <h2>Tillgängliga kalenderbilder</h2>
+    <p>
+    <a href="/calendar" target="_blank">Senaste bilden</a>
+    <a href="/clean/calendar" target="_blank">(ren)</a>
+    </p>
     <ul>
       {% for sheet in sheets %}
         <li>
         <div>
           <h3>{{sheet.name}}</h3>
           <a href="/calendar/{{sheet.url}}"><strong>Bild</strong></a>
+          <a href="/clean/calendar/{{sheet.url}}"><strong>(ren)</strong></a>
           <a href="/html/{{sheet.url}}">html</a>
+          <a href="/clean/html/{{sheet.url}}">(ren)</a>
+          
         </div>
         </li>
       {% endfor %}
